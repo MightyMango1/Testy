@@ -1,13 +1,13 @@
 # Testy
  
 > Authors: <br>
- \<[Nolan Kosmal](https://github.com/Mightymango1)\>
+ &emsp;\<[Nolan Kosmal](https://github.com/Mightymango1)\>
 > <br>
- \<[Morlae Letuli](https://github.com/mononomon)\>
+ &emsp;\<[Morlae Letuli](https://github.com/mononomon)\>
 > <br>
- \<[Chao Wei Hsu](https://github.com/lowbabun)\>
+ &emsp;\<[Chao Wei Hsu](https://github.com/lowbabun)\>
 > <br>
- \<[Sweden Agunenye](https://github.com/swedenagu)\>
+ &emsp;\<[Sweden Agunenye](https://github.com/swedenagu)\>
 ## Project Description
  Why is it important or interesting to you?
  > Our project is important because it helps academic achievers effectively study by reinforcing concepts in a fun and interactive way.
