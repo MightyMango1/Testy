@@ -16,10 +16,14 @@
  > C++ for the backend, React & CSS for the frontend.
 
  What will be the input/output of your project?
- >  Input will be buttons and text input from our UI. Output will be flashcards that the user had previously created.
+ >  Input will be buttons and text input from our UI. <br>
+ > Output will be flashcards that the user had previously created.
 
  What are the features that the project provides?
- > Adding and saving flashcards, editing flashcards, deleting flashcards, flipping flashcards, creating quizzes using existing flashcards from a set
+ > - Adding and saving flashcards
+ > - deleting flashcards
+ > - editing flashcards
+ > - creating quizzes using existing flashcards from a set
 
 
  > ## Phase II
