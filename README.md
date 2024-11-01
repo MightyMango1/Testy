@@ -13,18 +13,21 @@
  > Our project is important because it helps academic achievers effectively study by reinforcing concepts in a fun and interactive way.
 
  What languages/tools/technologies do you plan to use? (This list may change over the course of the project)</u>
- > C++ for the backend, React & CSS for the frontend.
+ > C++ for the backend, Next.js & TailwindCSS for the frontend.
+> We will use Next-auth for login authentication
+> MongoDB will act as the database to store user flashcard sets
 
  What will be the input/output of your project?
  >  Input will be buttons and text input from our UI. <br>
  > Output will be flashcards that the user had previously created.
 
  What are the features that the project provides?
+ > - Account Creation and login
+>  - Creating flashcard sets
  > - Adding and saving flashcards
  > - deleting flashcards
  > - editing flashcards
  > - creating quizzes using existing flashcards from a set
-
 
  > ## Phase II
  > In addition to completing the "User Interface Specification" and "Class Diagram" sections below, you will need to:
