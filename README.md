@@ -10,7 +10,7 @@
  &emsp;\<[Sweden Agunenye](https://github.com/swedenagu)\>
 ## Project Description
  Why is it important or interesting to you?
- > Our project is important because it helps academic achievers effectively study by reinforcing concepts in a fun and interactive way.
+ > Our project is important because it helps academic achievers effectively study by reinforcing concepts in a fun and interactive way. Testy has the potential to transform how people learn and retain information. As developers, we're passionate about developing tools that make studying more engaging and accessible, and we find it fascinating how technology can be leveraged to personalize learning experiences for each user. With features like custom quizzes, spaced repetition, and flashcards, the app can adapt to individual learning styles, helping users study more efficiently and retain knowledge longer.
 
  What languages/tools/technologies do you plan to use? (This list may change over the course of the project)</u>
  > C++ for the backend, Next.js & TailwindCSS for the frontend.
@@ -45,10 +45,33 @@
  > Include a navigation diagram for your screens and the layout of each of those screens as desribed below. For all the layouts/diagrams, you can use any tool such as PowerPoint or a drawing program. (Specification requirement is adapted from the User Interface Design Document Template of CMSC 345 at the University of Maryland Global Campus)
 
 ### Navigation Diagram
-> Draw a diagram illustrating how the user can navigate from one screen to another. Here is an [example](https://creately.com/diagram/example/ikfqudv82/user-navigation-diagram-classic?r=v). It can be useful to label each symbol that represents a screen so that you can reference the screens in the next section or the rest of the document if necessary. Give a brief description of what the diagram represents.
+> ![image](https://github.com/user-attachments/assets/2cef4ecc-9965-4202-b245-d89bf719466c)
+> The navigation diagram shows the main functionality of the application and what to do in order to access each specific function (e.x profile or create new sets). 
+
 
 ### Screen Layouts
-> Include the layout of each of your screens. The layout should describe the screen’s major components such as menus and prompts for user inputs and expected output, or any graphical user interface components if applicable (e.g. buttons, text boxes, etc). Explain what is on the layout, and the purpose of each menu item, button, etc. If many screens share the same layout, start by describing the general layout and then list the screens that will be using that layout and the differences between each of them.
+> <img width="301" alt="image" src="https://github.com/user-attachments/assets/81df02b0-4266-4537-a9b2-548d31b19cea">
+> <br>
+> Home Page: Shares the same navigation bar as most other pages. Main functions are to give a brief overview of the application and to bring the user to "Study Sets" page or login/signup page.
+> <br>
+> <img width="239" alt="image" src="https://github.com/user-attachments/assets/fd590aff-073f-4df5-8dfd-dbf1f297b69a">
+> <br>
+> Login and Signup pages: Does not include a navigation bar; only a button to return to the home page. Main function is to log the user into the application or sign up if they don't already have an account in the DB.
+> <br>
+> <img width="230" alt="image" src="https://github.com/user-attachments/assets/fc80401d-9f3a-40ff-b381-e89ec08c769f">
+> <br>
+> Study Sets page: Displays all the user's created study sets. Includes the option to create a new study set or generate a multiple choice quiz based on an existing study set.
+> <br>
+> <img width="302" alt="image" src="https://github.com/user-attachments/assets/12b9b341-fb7c-484a-9d3f-cd91326081e3">
+> <br>
+> Create Set page: Allows the user to create and save a study set by building individual flashcards. Allows the user to edit or delete existing flashcards within a set.
+> <br>
+
+
+
+
+
+
 
 ## Class Diagram
  > Include a **class diagram(s)** for your project and a **description** of the diagram(s). Your class diagram(s) should include all the main classes you plan for the project. This should be in sufficient detail that another group could pick up the project this point and successfully complete it. Use proper UML notation (as discussed in the course slides).
