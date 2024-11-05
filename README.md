@@ -74,7 +74,8 @@
 
 
 ## Class Diagram
-<img width = "1427" alt="image" src="https://lucid.app/lucidchart/1fd006a8-24d0-405e-9684-99dab2151429/edit?invitationId=inv_046103f0-28c3-4b99-b79a-feb1eccc4417">
+![Testy Class Diagram](https://github.com/user-attachments/assets/114cd250-eafd-43d1-b495-32b6f2721652)
+
  
  > ## Phase III
  > You will need to schedule a check-in for the second scrum meeting with the same reader you had your first scrum meeting with (using Calendly). Your entire team must be present. This meeting will occur on week 8 during lab time.
