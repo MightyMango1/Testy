@@ -29,6 +29,19 @@
  > - editing flashcards
  > - creating quizzes using existing flashcards from a set
 
+### User Epics
+> Add study sets
+> * Story: Add ability for the user to create their own study sets with flashcards
+> Edit study sets
+> * Story: Allow users to edit the flashcard decks and individual cards they make. This should include changes to the title or description of different flashcards as well as changing the order of the set.
+> Title/description for cards
+> * Story: Give users the option to make a front word/term and a back description for each card in a set
+> Save edits to cards
+> * Story: Integrate changes made by the user to individual cards or study sets. Think of how to best keep track of updates to different components of sets a user would make.
+> Delete study sets + individual flashcards
+> * Story: Allow users to delete flashcard decks instead of leaving them as duplicates or unused sets. Make sure users also have the option to delete individual flashcards.
+
+
 ### Navigation Diagram
 > ![image](https://github.com/user-attachments/assets/2cef4ecc-9965-4202-b245-d89bf719466c)
 > The navigation diagram shows the main functionality of the application and what to do in order to access each specific function (e.x profile or create new sets). 
