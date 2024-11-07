@@ -13,9 +13,9 @@
  > Our project is important because it helps academic achievers effectively study by reinforcing concepts in a fun and interactive way. Testy has the potential to transform how people learn and retain information. As developers, we're passionate about developing tools that make studying more engaging and accessible, and we find it fascinating how technology can be leveraged to personalize learning experiences for each user. With features like custom quizzes, spaced repetition, and flashcards, the app can adapt to individual learning styles, helping users study more efficiently and retain knowledge longer.
 
  What languages/tools/technologies do you plan to use? (This list may change over the course of the project)</u>
- > C++ for the backend, Next.js & TailwindCSS for the frontend.
+ > C++ / Node.js for the backend, Next.js & TailwindCSS for the frontend.
 > We will use Next-auth for login authentication
-> MongoDB will act as the database to store user flashcard sets
+> SQLite will act as the database to store user flashcard sets
 
  What will be the input/output of your project?
  >  Input will be buttons and text input from our UI. <br>
