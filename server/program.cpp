@@ -80,7 +80,7 @@ static int insertData(const char* s) {
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
     if (exit != SQLITE_OK) {
         std::cerr << "Error Insert" << std::endl;
-        sqlite3_free(messageError)
+        sqlite3_free(messageError);
     }
     else {
         std::cout << "Records created successfully!" << std::endl;
