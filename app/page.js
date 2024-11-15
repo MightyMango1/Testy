@@ -33,7 +33,7 @@ export default function Home() {
       <header className="flex justify-between items-center p-6 bg-gray-800 shadow-md">
         <div className="text-2xl font-bold flex items-center">
           <Image
-            src="/flashcard.png" // Replace with actual logo path
+            src="/flashcard.png"
             alt="Logo"
             width={40}
             height={40}
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
           <div className="md:w-1/2 flex justify-center ">
             <Image
-              src="/studyimage.PNG" // Replace with the actual image path
+              src="/studyimage.PNG"
               alt="Illustration of studying (royalty free)"
               width={350}
               height={350}
@@ -94,7 +94,7 @@ export default function Home() {
         {/*second card image */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col justify-between transform transition-transform duration-300 hover:scale-105">
             <Image
-              src="/flashcard.png" // Replace with the actual image path
+              src="/flashcard.png"
               alt="Class material illustration"
               width={400}
               height={200}
@@ -146,9 +146,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
-
 
       {/* Footer */}
       <footer className="text-center py-4 border-t border-gray-700">
