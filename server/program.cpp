@@ -4,7 +4,9 @@
 
 static int createDB(const char *s);
 static int createTable(const char *s);
+static int deleteData(const char *s);
 static int insertData(const char *s);
+static int updateData(const char *s);
 static int selectData(const char *s);
 static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
@@ -40,9 +42,6 @@ static int createTable(const char *s) {
                       "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                       "TITLE          TEXT NOT NULL, "
                       "DESCRIPTION    TEXT NOT NULL );";
-    // "AGE           INT  NOT NULL, "
-    // "ADDRESS       CHAR(50), "
-    // "GRADE         CHAR(1) );";
 
     try {
         int exit = 0;
@@ -63,6 +62,18 @@ static int createTable(const char *s) {
     catch (const std::exception &e) {
         std::cerr << e.what();
     }
+
+    return 0;
+}
+
+// Delete entry from table
+static int deleteData(const char *s) {
+    sqlite3 *DB;
+
+    int exit = sqlite3_open(s, &DB);
+
+    std::string sql = "DELETE FROM FLASHCARDS;";
+    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
 
     return 0;
 }
@@ -89,6 +100,27 @@ static int insertData(const char* s) {
     return 0;
 }
 
+static int updateData(const char *s) {
+    sqlite3 *DB;
+    char *messageError;
+
+    int exit = sqlite3_open(s, &DB);
+
+    std::string sql("UPDATE FLASHCARDS SET TITLE  - 'Placeholder' WHERE DESCRIPTION - 'Sorting algorithm that steps"
+                    "through the data element by element, swapping if needed'");
+
+    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+    if (exit != SQLITE_OK) {
+        std::cerr << "Error Insert" << std::endl;
+        sqlite3_free(messageError);
+    }
+    else {
+        std::cout << "Records created successfully!" << std::endl;
+    }
+
+    return 0;
+}
+
 // Selects everything in the FLASHCARDS database with a wildcard operator
 static int selectData(const char *s) {
     sqlite3 *DB;
@@ -99,6 +131,8 @@ static int selectData(const char *s) {
 
     // With open database, this is the first argument to the callback function -- evaluates SQL statement
     sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
+
+    return 0;
 }
 
 // The callback function is used to retrieve the contents of the database used by selectData().
