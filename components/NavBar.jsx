@@ -8,12 +8,12 @@ const NavBar = () => {
       {/* Header */}
       <header className="flex justify-between items-center p-6 bg-gray-800 shadow-md">
         <div className="text-2xl font-bold flex items-center">
-          {/* <Image
+          { <Image
             src="/flashcard.png"
             alt="Logo"
             width={40}
             height={40}
-          /> */}
+          /> }
           <Link href="/" className="ml-2">Testy.</Link>
         </div>
         <nav className="flex space-x-6">
