@@ -1,19 +1,9 @@
-// "use client"
+"use client"
 // import Image from "next/image";
-// import { useState } from "react";
-// import { runCppProgram } from "@/server/axiosModule";
-// import Button from "@/components/Button"
 
 // export default function Home() {
 
-//   const [output, setOutput] = useState("Click Me");
-
-//   const handleClick = async () => {
-//     //try
-//     const result = await runCppProgram();
-//     setOutput(result);
-//     //catch error here
-//   }
+//   
 //   return (
 //     <div className="flex items-center justify-center min-h-screen">
 //       <Button onClick={handleClick} label={output} />
@@ -25,8 +15,20 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { runCppProgram } from "@/server/axiosModule";
+import Button from "@/components/Button"
+import { useState } from "react";
 
 export default function Home() {
+  const [output, setOutput] = useState("Click Me");
+  const handleClick = async () => {
+    //try
+    const result = await runCppProgram();
+    setOutput(result);
+    //catch error here
+  }
+
+
   return (
     <div className="min-h-screen bg-gray-900 text-white font-serif">
       {/* Header */}
@@ -59,9 +61,7 @@ export default function Home() {
         <p className="text-lg text-gray-400 mb-8">
           Testy is an open-source study guide creator application. Tailored to your academic needs.
         </p>
-        <button className="bg-blue-800 text-white py-3 px-8 rounded-full text-xl transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">
-          Start Studying
-        </button>
+        <Button onClick={handleClick} label={output} />
       </main>
 
       {/* Info section */}
