@@ -4,7 +4,9 @@ import axios from 'axios';
 
 export function runCppProgram() {
     //create a post request to the server
-  return axios.post('http://localhost:3000/run-cpp')
+  return axios.post('http://localhost:3000/run-cpp', {
+    input : "Hello World"
+  })
     //once a response is received, return the data from that response
     .then(response => response.data.output)
     
