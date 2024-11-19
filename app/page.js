@@ -68,7 +68,7 @@ export default function Home() {
       <section className="py-16 bg-gray-800">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
-            <h2 className="text-3xl font-bold mb-4">Here's How it Works:</h2>
+            <h2 className="text-3xl font-bold mb-4">Here&apos;s How it Works:</h2>
             <ul className="list-disc list-inside text-lg space-y-2">
               <li>Create study sets specific to your subject</li>
               <li>Save and edit your study sets for later use</li>
