@@ -1,23 +1,11 @@
 "use client"
-// import Image from "next/image";
-
-// export default function Home() {
-
-//   
-//   return (
-//     <div className="flex items-center justify-center min-h-screen">
-//       <Button onClick={handleClick} label={output} />
-//     </div>
-//   );
-// }
-// pages/index.js
-// pages/index.js
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { runCppProgram } from "@/server/axiosModule";
 import Button from "@/components/Button"
 import { useState } from "react";
+import NavBar from '@/components/NavBar'
 
 export default function Home() {
   const [output, setOutput] = useState("Click Me");
@@ -28,33 +16,10 @@ export default function Home() {
     //catch error here
   }
 
-
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-serif">
-      {/* Header */}
-      <header className="flex justify-between items-center p-6 bg-gray-800 shadow-md">
-        <div className="text-2xl font-bold flex items-center">
-          <Image
-            src="/flashcard.png"
-            alt="Logo"
-            width={40}
-            height={40}
-          />
-          <span className="ml-2">Testy</span>
-        </div>
-        <nav className="flex space-x-6">
-          <Link href="/about" className="text-lg hover:text-blue-400 py-2 px-4">
-            About
-          </Link>
-          <Link href="/profile" className="text-lg hover:text-blue-400 py-2 px-4">
-            My profile
-          </Link>
-          <Link href="/my-sets" className="text-lg bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-            Study sets
-          </Link>
-        </nav>
-      </header>
-
+  <div>
+      <NavBar />
+      <div className="min-h-screen bg-gray-900 text-white font-serif">
       {/* Main section */}
       <main className="flex flex-col items-center justify-center py-20 text-center">
         <h1 className="text-4xl font-bold mb-4">Are you ready to ace your next exam?</h1>
@@ -108,9 +73,10 @@ export default function Home() {
               <p className="text-gray-400 mt-2">
                 Turn your notes into flashcards, practice quizzes, and study guides. You got this.
               </p>
-              <button className="mt-4 bg-blue-800 text-white py-2 px-6 rounded transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">
+              <br></br>
+              <Link href="/study" className="mt-4 bg-blue-800 text-white py-2 px-6 rounded transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">
                 Try it out
-              </button>
+              </Link>
           </div>
           {/* second card text*/}
           <div>
@@ -118,9 +84,10 @@ export default function Home() {
               <p className="text-gray-400 mt-2">
                   Memorize anything with personalized practice tests. No exam stands a chance.
               </p>
-              <button className="mt-4 bg-blue-800 text-white py-2 px-6 rounded transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">
+              <br></br>
+              <Link href="/study" className="mt-4 bg-blue-800 text-white py-2 px-6 rounded transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">
                 Get started
-              </button>
+              </Link>
           </div>
           {/*second card image */}
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col justify-between transform transition-transform duration-300 hover:scale-105">
@@ -153,5 +120,6 @@ export default function Home() {
         <a href="#top" className="text-gray-400">Back to the top</a>
       </footer>
     </div>
+  </div>
   );
 }
