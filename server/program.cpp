@@ -10,6 +10,7 @@ static int updateData(const char *s);
 static int selectData(const char *s);
 static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 
+
 int main(int argc, char* argv[]) {
     if (argc < 2) { 
         std::cout << "No input provided";
