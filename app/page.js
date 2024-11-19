@@ -11,7 +11,12 @@ export default function Home() {
   const [output, setOutput] = useState("Click Me");
   const handleClick = async () => {
     //try
-    const result = await runCppProgram();
+    const param = {
+      front : "card_name",
+      back : "card_description",
+      id : '1'
+    }
+    const result = await runCppProgram(param);
     setOutput(result);
     //catch error here
   }

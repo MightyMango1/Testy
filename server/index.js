@@ -27,10 +27,9 @@ app.use(cors()); // allows all origins
 // NOTE: basically if the program receives a POST request from the front end (in this case will always be from axios),
 // the server will process the reqest here (the req parameter) and respond back to the client with the result (the res parameter)
 app.post('/run-cpp', (req, res) => {
-  const input = req.body.input; // Get input from the request body
-
+  const input = req.body; // Get input from the request body
   // Run the C++ executable with the input
-  const command = `program ${input}`;
+  const command = `program ${input.front} ${input.back} ${input.id}`;
   // Command to compile and run a C++ program
   //Note: Params:
   //Error: If an error happens this will be an Error object containing information about what went wrong.
@@ -47,8 +46,7 @@ app.post('/run-cpp', (req, res) => {
       console.error(`Standard Error: ${stderr}`);
       return res.status(500).send({ output: `Error stderr: ${stderr}` });
     }
-
-
+    
     // Send the standard output (result of the program) as response
     res.status(200).json({ output: stdout.trim() });
   });
