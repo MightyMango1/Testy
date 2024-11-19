@@ -18,32 +18,6 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-serif">
-      {/* Header */}
-      <header className="flex justify-between items-center p-6 bg-gray-800 shadow-md">
-        <div className="text-2xl font-bold flex items-center">
-          <Image
-            src="/flashcard.png"
-            alt="Logo"
-            width={40}
-            height={40}
-          />
-          <span className="ml-2">Testy</span>
-        </div>
-        <nav className="flex space-x-6">
-          <Link href="/about" className="text-lg hover:text-blue-400 py-2 px-4">
-            About
-          </Link>
-          <Link href="/profile" className="text-lg hover:text-blue-400 py-2 px-4">
-            My profile
-          </Link>
-          <Link href="/my-sets" className="text-lg bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-            Study sets
-          </Link>
-        </nav>
-      </header>
-
-  return (
   <div>
       <NavBar />
       <div className="min-h-screen bg-gray-900 text-white font-serif">
@@ -147,6 +121,7 @@ export default function Home() {
         <a href="#top" className="text-gray-400">Back to the top</a>
       </footer>
     </div>
-  </div>
+    </div>
+
   );
 }
