@@ -6,7 +6,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     std::string frontendInput = argv[1];
-    std::cout << "Received input: " << frontendInput << std::endl;
-
+    std::cout << "Received input: " << frontendInput << " " << argv[2] << " " << argv[3] << std::endl;
     return 0;
 }
