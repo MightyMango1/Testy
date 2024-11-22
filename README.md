@@ -47,7 +47,7 @@
 
 
 ### Navigation Diagram
-> ![image](https://github.com/user-attachments/assets/2cef4ecc-9965-4202-b245-d89bf719466c)
+> <img width="767" src="https://github.com/user-attachments/assets/df6163da-31ec-448c-bc48-731278483064">
 > The navigation diagram shows the main functionality of the application and what to do in order to access each specific function (e.x profile or create new sets). 
 
 
