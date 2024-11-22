@@ -76,7 +76,8 @@
 
 
 ## Class Diagram
-![Testy Class Diagram](https://github.com/user-attachments/assets/114cd250-eafd-43d1-b495-32b6f2721652)
+![Testy Class Diagram](https://github.com/user-attachments/assets/05085bda-17de-4cad-b2af-453b4363baee)
+
 
  
  > ## Phase III
