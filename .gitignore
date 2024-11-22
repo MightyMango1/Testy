@@ -43,3 +43,6 @@ next-env.d.ts
 program.exe
 addcard.exe
 a.exe
+
+#database
+database/cards.db
