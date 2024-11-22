@@ -47,7 +47,7 @@
 
 
 ### Navigation Diagram
-> <img width="767" src="https://github.com/user-attachments/assets/df6163da-31ec-448c-bc48-731278483064">
+> ![image](https://github.com/user-attachments/assets/2cef4ecc-9965-4202-b245-d89bf719466c)
 > The navigation diagram shows the main functionality of the application and what to do in order to access each specific function (e.x profile or create new sets). 
 
 
@@ -76,7 +76,7 @@
 
 
 ## Class Diagram
-![Testy Class Diagram](https://github.com/user-attachments/assets/114cd250-eafd-43d1-b495-32b6f2721652)
+![Testy Class Diagram](https://github.com/user-attachments/assets/05085bda-17de-4cad-b2af-453b4363baee)
 
 
  
