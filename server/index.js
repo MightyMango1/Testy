@@ -26,14 +26,22 @@ app.use(cors()); // allows all origins
 // POST route to run the C++ program
 // NOTE: basically if the program receives a POST request from the front end (in this case will always be from axios),
 // the server will process the reqest here (the req parameter) and respond back to the client with the result (the res parameter)
-app.post('/run-cpp', (req, res) => {
+app.post('/run-add-cpp', (req, res) => {
+  const input = req.body; // Get input from the request body
+
+  // Run the C++ executable with the input
+  var command = `addcard`;
+  for (let i=0; i < input.length; i++) {
+    command += ` ${input[i].textBox1} ${input[i].textBox2}`
+  }
+  console.log(command);
   // Command to compile and run a C++ program
   //Note: Params:
   //Error: If an error happens this will be an Error object containing information about what went wrong.
   //stdout (standard output): contains the standard output of the child process (result of program ran)
   //stderror (standard error): If the child process encounters an error during execution
   //execute our program (./program.exe)
-  exec('program', (error, stdout, stderr) => {
+  exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`Error executing program: ${error.message}`);
       //if error, send a 500 status along with error message object (TODO: display this error on the frontend)
@@ -41,9 +49,9 @@ app.post('/run-cpp', (req, res) => {
     }
     if (stderr) {
       console.error(`Standard Error: ${stderr}`);
-      return res.status(500).send({ output: `Error: ${stderr}` });
+      return res.status(500).send({ output: `Error stderr: ${stderr}` });
     }
-
+    
     // Send the standard output (result of the program) as response
     res.status(200).json({ output: stdout.trim() });
   });

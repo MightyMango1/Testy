@@ -41,3 +41,5 @@ next-env.d.ts
 
 #executables
 program.exe
+addcard.exe
+a.exe
