@@ -76,7 +76,7 @@
 
 
 ## Class Diagram
-![Testy Class Diagram](https://github.com/user-attachments/assets/05085bda-17de-4cad-b2af-453b4363baee)
+![Testy Class Diagram](https://github.com/user-attachments/assets/7fa1ddbe-8d61-4ee5-bccb-931892ba9cbc)
 
 
  
