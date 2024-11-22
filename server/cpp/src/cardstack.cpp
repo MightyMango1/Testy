@@ -10,6 +10,14 @@ int CardStack::get_cardAmt(){
     return cardAmt;
 }
 
+void CardStack::editName(string n){
+    name = n;
+}
+
+string CardStack::getName(){
+    return name;
+}
+
 Card CardStack::topCard(){
     return cards[0];
 }
