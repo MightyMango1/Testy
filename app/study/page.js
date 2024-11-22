@@ -37,7 +37,7 @@ const studyPage = () => {
       >
         <h1 className="text-white font-serif text-lg">Front of Card:</h1>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded resize-none"
+          className="w-full p-2 border text-black border-gray-300 rounded resize-none"
           rows="5"
           value={textBox1}
           onChange={(e) => setTextBox1(e.target.value)}
@@ -45,7 +45,7 @@ const studyPage = () => {
         />
         <h1 className="text-white text-lg font-serif">Back of Card:</h1>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded resize-none"
+          className="w-full p-2 border text-black border-gray-300 rounded resize-none"
           rows="5"
           value={textBox2}
           onChange={(e) => setTextBox2(e.target.value)}
