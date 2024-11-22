@@ -90,8 +90,9 @@ static int insertData(const char* s) {
 
     int exit = sqlite3_open(s, &DB);
 
-    std::string sql = "INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('Bubblesort', 'Sorting algorithm that steps "
-                      "through the data element by element, swapping if needed');";
+    std::string userInput = "car";
+
+    std::string sql = "INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES( 'Title' , "+userInput+");";
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
     if (exit != SQLITE_OK) {
         std::cerr << "Error Insert: " << sqlite3_errmsg(DB) << std::endl;
@@ -110,7 +111,7 @@ static int updateData(const char *s) {
     char *messageError;
 
     int exit = sqlite3_open(s, &DB);
-
+    
     std::string sql = "UPDATE FLASHCARDS SET TITLE = 'Placeholder' WHERE DESCRIPTION = 'Sorting algorithm that steps "
                       "through the data element by element, swapping if needed';";
 
