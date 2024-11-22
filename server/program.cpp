@@ -18,6 +18,10 @@ int main(int argc, char* argv[]) {
 
     createDB(dir);
     createTable(dir);
+    // deleteData(dir); //delete the whole data, could be fix into only delete specific cards.
+    insertData(dir);    //insert data based on given title and description, needa fix it into based on user's input
+    // updateData(dir); //update the every data that matches the title, we could fix it so we can choose the title and what description we need to update to
+    selectData(dir);
 
     return 0;
 }
@@ -30,7 +34,7 @@ static int createDB(const char *s) {
     exit = sqlite3_open(s, &DB);
 
     sqlite3_close(DB);
-
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -63,7 +67,7 @@ static int createTable(const char *s) {
     catch (const std::exception &e) {
         std::cerr << e.what();
     }
-
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -75,7 +79,7 @@ static int deleteData(const char *s) {
 
     std::string sql = "DELETE FROM FLASHCARDS;";
     sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
-
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -86,18 +90,18 @@ static int insertData(const char* s) {
 
     int exit = sqlite3_open(s, &DB);
 
-    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('Bubblesort', 'Sorting algorithm that steps"
-                    "through the data element by element, swapping if needed');");
-
+    std::string sql = "INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('Bubblesort', 'Sorting algorithm that steps "
+                      "through the data element by element, swapping if needed');";
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
     if (exit != SQLITE_OK) {
-        std::cerr << "Error Insert" << std::endl;
+        std::cerr << "Error Insert: " << sqlite3_errmsg(DB) << std::endl;
         sqlite3_free(messageError);
     }
     else {
         std::cout << "Records created successfully!" << std::endl;
     }
 
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -107,18 +111,20 @@ static int updateData(const char *s) {
 
     int exit = sqlite3_open(s, &DB);
 
-    std::string sql("UPDATE FLASHCARDS SET TITLE  - 'Placeholder' WHERE DESCRIPTION - 'Sorting algorithm that steps"
-                    "through the data element by element, swapping if needed'");
+    std::string sql = "UPDATE FLASHCARDS SET TITLE = 'Placeholder' WHERE DESCRIPTION = 'Sorting algorithm that steps "
+                      "through the data element by element, swapping if needed';";
 
+                    
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+
     if (exit != SQLITE_OK) {
-        std::cerr << "Error Insert" << std::endl;
+        std::cerr << "Error Update" << std::endl;
         sqlite3_free(messageError);
     }
     else {
         std::cout << "Records created successfully!" << std::endl;
     }
-
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -132,7 +138,7 @@ static int selectData(const char *s) {
 
     // With open database, this is the first argument to the callback function -- evaluates SQL statement
     sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
-
+    sqlite3_close(DB); //close database
     return 0;
 }
 
@@ -147,6 +153,5 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
     }
 
     std::cout << std::endl;
-
     return 0;
 }
