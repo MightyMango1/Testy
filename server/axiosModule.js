@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // Function to make a POST request to run the C++ program
 
-export function runCppProgram(input) {
+export function addCards(input) {
     //create a post request to the server
-  return axios.post('http://localhost:3000/run-cpp', input)
+  return axios.post('http://localhost:3000/run-add-cpp', input)
     //once a response is received, return the data from that response
     .then(response => response.data.output)
     
