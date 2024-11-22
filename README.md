@@ -76,19 +76,26 @@
 
 
 ## Class Diagram
-![Testy Class Diagram]<img width="703" src="https://github.com/user-attachments/assets/457cb296-0fb2-4620-a129-565d1522836f">
+<img width="703" src="https://github.com/user-attachments/assets/457cb296-0fb2-4620-a129-565d1522836f">
 
 
 
  
  > ## Phase III
- >   * For each update in your class diagram, you must explain in 3-4 sentences:
- >   * What SOLID principle(s) did you apply?
->      * Single responsibility principle (SRP) and Liskov's Substitution principle (LSP)
- >     * How did you apply it? i.e. describe the change.
->      * Updated Class Diagram to showcase new classes (database class, removed user class, etc.)
- >     * How did this change help you write better code?
->      * More clear and conside code, each function has only one job. Allowed us to further break code into components allowing for more efficiency
+1. Single Responsibility Principle (SRP)
+* How it was applied:
+> The creation of a database class separated concerns by isolating database-related operations (e.g., CRUD operations) into its own class.
+> By removing or refactoring the user class, we ensured that this class focuses solely on user-specific logic, avoiding responsibilities like interacting directly with the > database.
+* How this helped:
+> Improved maintainability by reducing the scope of each class, making them easier to understand and modify independently.
+> Allowed changes in database implementation (e.g., switching from MongoDB to SQLite) without affecting user-related logic.
+2. Open/Closed Principle (OCP)
+* How it was applied:
+> Introducing new classes (e.g., database class) allows the code to be open for extension but closed for modification. We added new classes or methods instead of
+> altering existing logic to support new features or behaviors.
+* How this helped:
+> Enabled easier scalability and the ability to add new functionality without breaking or modifying existing code.
+> Reduced the risk of introducing bugs in existing code by encapsulating new functionality.
  
  > ## Final deliverable
  > All group members will give a demo to the reader during lab time. ou should schedule your demo on Calendly with the same reader who took your second scrum meeting. The reader will check the demo and the project GitHub repository and ask a few questions to all the team members. 
