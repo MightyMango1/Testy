@@ -65,12 +65,12 @@ const studyPage = () => {
           submittedData.map((data, index) => (
             <div
               key={index}
-              className="bg-gray-200 p-3 mb-3 rounded shadow-inner word-wrap"
+              className="bg-gray-200 text-black p-3 mb-3 rounded shadow-inner word-wrap"
             >
               <p>
                 <strong>{data.textBox1}</strong>
               </p>
-              <p className="overflow-auto break-words">
+              <p className="text-black overflow-auto break-words">
                 {data.textBox2}
               </p>
             </div>
