@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { runCppProgram } from "@/server/axiosModule";
 import Button from "@/components/Button"
 import { useState } from "react";
 import NavBar from '@/components/NavBar'
@@ -21,7 +20,6 @@ export default function Home() {
     //catch error here
   }
 
-
   return (
   <div>
       <NavBar />
@@ -32,7 +30,7 @@ export default function Home() {
         <p className="text-lg text-gray-400 mb-8">
           Testy is an open-source study guide creator application. Tailored to your academic needs.
         </p>
-        <Button onClick={handleClick} label={output} />
+        <Link href="/study" className="mt-4 bg-blue-800 text-white py-2 px-6 rounded transform transition-transform duration-300 hover:scale-105 hover:bg-blue-600">Start Studying</Link>
       </main>
 
       {/* Info section */}
