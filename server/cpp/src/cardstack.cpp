@@ -3,11 +3,11 @@
 #include <ctime>
 
 CardStack::CardStack(){
-    cardAmt = 0;
+    
 }
 
 int CardStack::get_cardAmt(){
-    return cardAmt;
+    return cards.size();
 }
 
 void CardStack::editName(string n){
@@ -59,7 +59,7 @@ void CardStack::nextCard(){
 }
 
 void CardStack::prevCard(){
-    cards.insert(cards.begin(), cards[cardAmt - 1]);
+    cards.insert(cards.begin(), cards[cards.size() - 1]);
     cards.pop_back();
 }
 
@@ -73,7 +73,7 @@ Card CardStack::pickCard(int cardNum){
 }
 
 bool CardStack::inPile(int cardNum){
-    if(cardNum > cardAmt || cardNum == 0){
+    if(cardNum > cards.size() || cardNum == 0){
         cout << "Error: out of bounds" << endl;
         return false;
     }
