@@ -5,7 +5,7 @@
 
 class CardStack{
     private:
-        int cardAmt;
+        int ID;
         string name;
         vector<Card> cards;
 
