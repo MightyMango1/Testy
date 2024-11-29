@@ -1,26 +1,5 @@
-#include <iostream>
-#include <sqlite3.h>
-#include <stdexcept>
+#include "database.h"
 
-static int createDB(const char *s);
-static int createTable(const char *s);
-static int deleteData(const char *s);
-static int insertData(const char *s);
-static int updateData(const char *s);
-static int selectData(const char *s);
-static int callback(void* NotUsed, int argc, char** argv, char** azColName);
-
-
-int main(int argc, char* argv[]) {
-    
-    const char *dir = "./database/cards.db";
-    sqlite3 *DB;
-
-    createDB(dir);
-    createTable(dir);
-
-    return 0;
-}
 
 // Create the database in SQLite. You need to open the connection with the given filename.
 static int createDB(const char *s) {
@@ -83,9 +62,9 @@ static int deleteData(const char *s) {
 static int insertData(const char* s) {
     sqlite3 *DB;
     char *messageError;
-
+    
     int exit = sqlite3_open(s, &DB);
-
+    
     std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('Bubblesort', 'Sorting algorithm that steps"
                     "through the data element by element, swapping if needed');");
 

@@ -5,11 +5,13 @@
 #include <activaut.idl>
 #include "card.cpp"
 #include "cardstack.cpp"
-
+#include "program.cpp"
 bool findID(int findID);
 
 
 int main(int argc, char* argv[]) {
+    const char *dir = "./database/cards.db";    //database
+
     //create a function that pulls ids from Card objects in databse
     //store those ids in a umap
     //generate a random num, and if rand num is in the map, keep create rand numbers
