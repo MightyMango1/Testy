@@ -1,4 +1,5 @@
 #include "database.h"
+#include "../cpp/include/card.hpp"
 
 
 // Create the database in SQLite. You need to open the connection with the given filename.
@@ -7,6 +8,11 @@ static int createDB(const char *s) {
     int exit = 0;
 
     exit = sqlite3_open(s, &DB);
+    if(exit != SQLITE_OK){
+        std::cerr << "Error opening/creating Database: " << sqlite3_errmsg(DB) << std::endl;
+        sqlite3_close(DB);
+        return exit;
+    }
 
     sqlite3_close(DB);
 
@@ -19,7 +25,8 @@ static int createTable(const char *s) {
     sqlite3 *DB;
 
     std::string sql = "CREATE TABLE IF NOT EXISTS FLASHCARDS("
-                      "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                      "CardID INTEGER PRIMARY KEY AUTOINCREMENT, "
+                      "PileID         INTEGER NOT NULL, "
                       "TITLE          TEXT NOT NULL, "
                       "DESCRIPTION    TEXT NOT NULL );";
 
@@ -58,15 +65,36 @@ static int deleteData(const char *s) {
     return 0;
 }
 
+//returns the unique cardID of recently inserted Card object
+static int getLastInsertedCardID(sqlite3 *db){
+    sqlite3_stmt *stmt;
+    char *messageError;
+    int cardID;
+
+    string sql("SELECT LAST_INSERT_ROWID()");
+
+    if(sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
+        if(sqlite3_step(stmt) == SQLITE_ROW){
+            cardID = sqlite3_column_int(stmt, 0); //returns the CardID value in the last row, column 0
+        }
+        sqlite3_finalize(stmt);
+    }
+
+    return cardID;
+}
+
 // The database is initially populated with one line of data.
-static int insertData(const char* s) {
+static int insertData(const char* s, Card card) {
     sqlite3 *DB;
     char *messageError;
+    int cardID = -1;
     
     int exit = sqlite3_open(s, &DB);
     
-    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('Bubblesort', 'Sorting algorithm that steps"
-                    "through the data element by element, swapping if needed');");
+    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES("
+                    + to_string(card.get_pileID()) + ", "
+                    + "'" + card.get_front() + "', "
+                    + "'" + card.get_back() + "');");
 
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
     if (exit != SQLITE_OK) {
@@ -77,7 +105,9 @@ static int insertData(const char* s) {
         std::cout << "Records created successfully!" << std::endl;
     }
 
-    return 0;
+    cardID = getLastInsertedCardID(DB);
+
+    return cardID;
 }
 
 static int updateData(const char *s) {
@@ -86,7 +116,7 @@ static int updateData(const char *s) {
 
     int exit = sqlite3_open(s, &DB);
 
-    std::string sql("UPDATE FLASHCARDS SET TITLE  - 'Placeholder' WHERE DESCRIPTION - 'Sorting algorithm that steps"
+    std::string sql("UPDATE FLASHCARDS SET TITLE  = 'Placeholder' WHERE DESCRIPTION = 'Sorting algorithm that steps"
                     "through the data element by element, swapping if needed'");
 
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);

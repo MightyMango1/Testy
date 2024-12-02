@@ -14,7 +14,7 @@ class Card{
         string front;
         string back;
         Side face;
-        int ID; //matches the same id of that of a cardStack
+        int pileID; //matches the same id of that of a cardStack
     public:
         Card();
         Card(int ID, string f, string b);
@@ -22,6 +22,7 @@ class Card{
         void edit_back(string s);
         string get_front();
         string get_back();
+        int get_pileID();
         void flip();
 };
 

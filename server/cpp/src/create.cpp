@@ -24,7 +24,8 @@ int main(int argc, char* argv[]) {
         if((i + 1) > argc){
             std::cout << "Please provide correct parameters";
         }else{
-            Card c(randID, argv[i], argv[i + 1]);
+            Card *c = new Card(randID, argv[i], argv[i + 1]);
+            int cardID = insertData(dir, *c);
             i++;
         }
     }

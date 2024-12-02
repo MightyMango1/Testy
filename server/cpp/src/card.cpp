@@ -3,7 +3,7 @@
 #include <string>
 
 Card::Card(int id, std::string f, std::string b){
-    ID = id;
+    pileID = id;
     front = f;
     back = b;
     face = FRONT;
@@ -23,6 +23,10 @@ string Card::get_front(){
 
 string Card::get_back(){
     return back;
+}
+
+int Card::get_pileID(){
+    return pileID;
 }
 
 void Card::flip(){
