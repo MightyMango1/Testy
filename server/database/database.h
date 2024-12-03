@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <stdexcept>
-#include "../src/card.cpp"
-#include "../src/cardstack.cpp"
+#include "../cpp/src/card.cpp"
+#include "../cpp/src/cardstack.cpp"
 
 struct database {
     static int createDB(const char *s);
