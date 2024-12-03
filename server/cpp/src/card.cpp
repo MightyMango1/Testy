@@ -1,15 +1,13 @@
 #include "../include/card.hpp"
-#include <iostream>
-#include <string>
 
-Card::Card(int id, std::string f, std::string b){
-    ID = id;
+Card::Card(int ID, std::string f, std::string b){
+    this->ID = ID;
     front = f;
     back = b;
     face = FRONT;
 }
 
-void Card::edit_front(std::string s){
+void Card::edit_front(string s){
     //save for later
 }
 
