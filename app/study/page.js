@@ -5,7 +5,7 @@ import Link from 'next/link';
 import NavBar from '@/components/NavBar';
 import { useState } from "react";
 import { addCards } from "@/server/axiosModule";
-
+import Button from '@/components/Button';
 
 const studyPage = () => {
   const [textBox1, setTextBox1] = useState("");
@@ -87,7 +87,7 @@ const studyPage = () => {
           Submit Deck
         </button>
       </div>
-      
+      <Link href="/sets" className="px-6 bg-white text-black my-4 py-4 rounded hover:bg-grey-800">My Sets</Link>
     </div>
     </>
   );
