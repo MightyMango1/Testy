@@ -1,4 +1,7 @@
+#include <string>
+
 #include "database.h"
+
 
 
 // Create the database in SQLite. You need to open the connection with the given filename.
@@ -21,7 +24,8 @@ int database::createTable(const char *s) {
     std::string sql = "CREATE TABLE IF NOT EXISTS FLASHCARDS("
                       "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
                       "TITLE          TEXT NOT NULL, "
-                      "DESCRIPTION    TEXT NOT NULL );";
+                      "DESCRIPTION    TEXT NOT NULL, "
+                      "ID             NOT NULL );";
 
     try {
         int exit = 0;
@@ -62,12 +66,14 @@ int database::deleteData(const char *s, Card *card) {
 int database::insertData(const char *s, Card *card) {
     sqlite3 *DB;
     char *messageError;
+
+    string id = to_string(card->get_id());
     string title = card->get_front();
     string def = card->get_back();
 
     int exit = sqlite3_open(s, &DB);
     
-    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES('"+title+"', '"+def+"');");
+    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION, ID) VALUES('"+title+"', '"+def+"','"+id+"');");
 
     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
     if (exit != SQLITE_OK) {

@@ -22,6 +22,7 @@ class Card{
         void edit_back(string s);
         string get_front();
         string get_back();
+        int get_id();
         void flip();
 };
 

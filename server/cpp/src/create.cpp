@@ -20,11 +20,14 @@ int main(int argc, char* argv[]) {
     while(findID(randID)){
         //returns false, means this is a unique ID
     }
+    // "front1, back1, front2, back2"
     for(int i = 1; i < argc ; i++){
         if((i + 1) > argc){
             std::cout << "Please provide correct parameters";
         }else{
+            //Card object (id, front, back)
             Card c(randID, argv[i], argv[i + 1]);
+            insertData(dir, c);
             i++;
         }
     }

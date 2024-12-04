@@ -7,10 +7,7 @@ import Link from 'next/link';
 const Sets = () => {
     //list of all cards in the set
     const [mySet, setSet] = useState([
-        {front: "Test1", back: "This is a test definition for a card object"},
-        {front: "Test1", back: "Test2"},
-        {front: "Test1", back: "Test2"},
-        {front: "Test1", back: "Test2"}]);
+        {front: "Test1", back: "This is a test definition for a card object"},]);
 
     //list of all existing sets
     const [possibleSets, setPossibleSets] = useState([
