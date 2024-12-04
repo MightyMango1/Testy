@@ -2,29 +2,34 @@
 #include <string.h>
 #include <cstdlib>
 #include <ctime>
-#include <activaut.idl>
+#include <unordered_map>
 #include "../src/card.cpp"
-#include "../src/cardstack.cpp"
+#include "../../database/database.cpp"
 
-bool findID(int findID);
-
+bool findID(int findID, unordered_map<int, int>& IDs);
 
 int main(int argc, char* argv[]) {
-    //create a function that pulls ids from Card objects in databse
+    const char *dir = "./database/cards.db";    //database
+
+    //create a function that pulls pile ids from Card objects in databse
     //store those ids in a umap
     //generate a random num, and if rand num is in the map, keep create rand numbers
     srand(time(0));
-    int randID = 0;
-    randID = (rand() % 10000) + 1;
-    while(findID(randID)){
-        //returns false, means this is a unique ID
-        //uses db class' instance variable IDs : unoredered_map<int, 
-    }
+    int randID;
+
+    unordered_map<int, int> pileIDs;
+    pileIDs = getPileIDs(dir);
+
+    do{
+        randID = rand() % 10000;
+    }while(findID(randID, pileIDs));
+
     for(int i = 1; i < argc ; i++){
         if((i + 1) > argc){
             std::cout << "Please provide correct parameters";
         }else{
-            Card* c = new Card(randID, argv[i], argv[i + 1]);
+            Card *newCard = new Card(randID, argv[i], argv[i + 1]);
+            int cardID = insertData(dir, *newCard);
             i++;
         }
     }
@@ -32,6 +37,6 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-bool randID(int potentialID){
-    return false;
+bool findID(int potentialID, unordered_map<int, int>& IDs){
+    return IDs.find(potentialID) != IDs.end();
 }

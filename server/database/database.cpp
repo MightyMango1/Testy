@@ -1,23 +1,19 @@
-#include "database.h"
-#include "../cpp/include/card.hpp"
+#include "./database.h"
 
 
 // Create the database in SQLite. You need to open the connection with the given filename.
 static int createDB(const char *s) {
     sqlite3 *DB;
-    int exit = 0;
 
-    exit = sqlite3_open(s, &DB);
-    if(exit != SQLITE_OK){
-        std::cerr << "Error opening/creating Database: " << sqlite3_errmsg(DB) << std::endl;
-        sqlite3_close(DB);
-        return exit;
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return -1;
     }
 
     sqlite3_close(DB);
 
     return 0;
 }
+
 
 // Create a table for storing the data with different text fields.
 // An exception is thrown if the database cannot be opened or read.
@@ -31,8 +27,11 @@ static int createTable(const char *s) {
                       "DESCRIPTION    TEXT NOT NULL );";
 
     try {
-        int exit = 0;
-        exit = sqlite3_open(s, &DB);
+        int exit = -1;
+        
+        if(database::openDB(s, DB) != SQLITE_OK){
+            return -1;
+        }
 
         char *messageError;
         exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
@@ -53,45 +52,64 @@ static int createTable(const char *s) {
     return 0;
 }
 
-// Delete entry from table
-static int deleteData(const char *s) {
-    sqlite3 *DB;
-
-    int exit = sqlite3_open(s, &DB);
-
-    std::string sql = "DELETE FROM FLASHCARDS;";
-    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
-
-    return 0;
+//checks to see if database exists or not
+static bool checkDBExists(const char *dir){
+    return std::filesystem::exists(dir);
 }
 
-//returns the unique cardID of recently inserted Card object
-static int getLastInsertedCardID(sqlite3 *db){
+//checks if database table exists or not
+static bool checkTableExists(sqlite3 *DB, const string &tableName){
     sqlite3_stmt *stmt;
-    char *messageError;
-    int cardID;
+    bool tableExists = false;
 
-    string sql("SELECT LAST_INSERT_ROWID()");
+    string sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';";
 
-    if(sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
+    if(sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
         if(sqlite3_step(stmt) == SQLITE_ROW){
-            cardID = sqlite3_column_int(stmt, 0); //returns the CardID value in the last row, column 0
+            tableExists = true;
         }
         sqlite3_finalize(stmt);
     }
 
-    return cardID;
+    return tableExists;
 }
 
-// The database is initially populated with one line of data.
+static int openDB(const char *s, sqlite3 *&DB) {
+    int exit = sqlite3_open(s, &DB);
+    if (exit != SQLITE_OK) {
+        std::cerr << "Error opening database: " << sqlite3_errmsg(DB) << std::endl;
+    }
+    return exit;
+}
+
+// Delete entry from table
+static int deleteData(const char *s, int cardID) {
+    sqlite3 *DB;
+
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return -1;
+    }
+
+    std::string sql = "DELETE FROM FLASHCARDS;";
+    sqlite3_exec(DB, sql.c_str(), database::callback, NULL, NULL);
+
+    return 0;
+}
+
+
+
+// Inserting the Card object into the database.
 static int insertData(const char* s, Card card) {
     sqlite3 *DB;
     char *messageError;
     int cardID = -1;
+    int exit = -1;
     
-    int exit = sqlite3_open(s, &DB);
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return -1;
+    }
     
-    std::string sql("INSERT INTO FLASHCARDS (TITLE, DESCRIPTION) VALUES("
+    std::string sql("INSERT INTO FLASHCARDS (PileID, TITLE, DESCRIPTION) VALUES("
                     + to_string(card.get_pileID()) + ", "
                     + "'" + card.get_front() + "', "
                     + "'" + card.get_back() + "');");
@@ -105,7 +123,7 @@ static int insertData(const char* s, Card card) {
         std::cout << "Records created successfully!" << std::endl;
     }
 
-    cardID = getLastInsertedCardID(DB);
+    cardID = database::getLastInsertedCardID(DB);
 
     return cardID;
 }
@@ -113,8 +131,11 @@ static int insertData(const char* s, Card card) {
 static int updateData(const char *s) {
     sqlite3 *DB;
     char *messageError;
+    int exit = -1;
 
-    int exit = sqlite3_open(s, &DB);
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return -1;
+    }
 
     std::string sql("UPDATE FLASHCARDS SET TITLE  = 'Placeholder' WHERE DESCRIPTION = 'Sorting algorithm that steps"
                     "through the data element by element, swapping if needed'");
@@ -135,14 +156,38 @@ static int updateData(const char *s) {
 static int selectData(const char *s) {
     sqlite3 *DB;
 
-    int exit = sqlite3_open(s, &DB);
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return -1;
+    }
 
     std::string sql = " SELECT * FROM FLASHCARDS;";
 
     // With open database, this is the first argument to the callback function -- evaluates SQL statement
-    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
+    sqlite3_exec(DB, sql.c_str(), database::callback, NULL, NULL);
 
     return 0;
+}
+
+//searches along the database and retrieves all the pileIDs in a umap
+static unordered_map<int, int> getPileIDs(const char *s){
+    unordered_map<int, int> pileIDs;
+    sqlite3 *DB;
+    sqlite3_stmt *stmt;
+
+    if(database::openDB(s, DB) != SQLITE_OK){
+        return pileIDs;
+    }
+
+    string sql = "SELECT PileID FROM FLASHCARDS;";
+
+    if(sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+            int pile = sqlite3_column_int(stmt, 0);
+            pileIDs[pile]++;
+        }
+        sqlite3_finalize(stmt);
+    }
+    return pileIDs;
 }
 
 // The callback function is used to retrieve the contents of the database used by selectData().
@@ -158,4 +203,22 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName)
     std::cout << std::endl;
 
     return 0;
+}
+
+//returns the unique cardID of recently inserted Card object
+static int getLastInsertedCardID(sqlite3 *db){
+    sqlite3_stmt *stmt;
+    char *messageError;
+    int cardID;
+
+    string sql("SELECT LAST_INSERT_ROWID()");
+
+    if(sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
+        if(sqlite3_step(stmt) == SQLITE_ROW){
+            cardID = sqlite3_column_int(stmt, 0); //returns the CardID value in the last row, column 0
+        }
+        sqlite3_finalize(stmt);
+    }
+
+    return cardID;
 }
