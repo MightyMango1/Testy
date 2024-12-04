@@ -1,8 +1,9 @@
-#include "./database.h"
+#include "database.h"
+#include <filesystem>
 
 
 // Create the database in SQLite. You need to open the connection with the given filename.
-static int createDB(const char *s) {
+int database::createDB(const char *s) {
     sqlite3 *DB;
 
     if(database::openDB(s, DB) != SQLITE_OK){
@@ -17,14 +18,15 @@ static int createDB(const char *s) {
 
 // Create a table for storing the data with different text fields.
 // An exception is thrown if the database cannot be opened or read.
-static int createTable(const char *s) {
+int database::createTable(const char *s) {
     sqlite3 *DB;
 
     std::string sql = "CREATE TABLE IF NOT EXISTS FLASHCARDS("
                       "CardID INTEGER PRIMARY KEY AUTOINCREMENT, "
                       "PileID         INTEGER NOT NULL, "
                       "TITLE          TEXT NOT NULL, "
-                      "DESCRIPTION    TEXT NOT NULL );";
+                      "DESCRIPTION    TEXT NOT NULL, "
+                      "ID             NOT NULL );";
 
     try {
         int exit = -1;
@@ -54,7 +56,15 @@ static int createTable(const char *s) {
 
 //checks to see if database exists or not
 static bool checkDBExists(const char *dir){
-    return std::filesystem::exists(dir);
+    sqlite3* DB;
+    int exit = sqlite3_open_v2(dir, &DB, SQLITE_OPEN_READONLY, NULL);
+
+    if (exit == SQLITE_OK) {
+        sqlite3_close(DB);
+        return true;  // Database exists and is accessible
+    } else {
+        return false;  // Database doesn't exist or is not accessible
+    }
 }
 
 //checks if database table exists or not
@@ -128,7 +138,7 @@ static int insertData(const char* s, Card card) {
     return cardID;
 }
 
-static int updateData(const char *s) {
+int database::updateData(const char *s) {
     sqlite3 *DB;
     char *messageError;
     int exit = -1;
@@ -153,7 +163,7 @@ static int updateData(const char *s) {
 }
 
 // Selects everything in the FLASHCARDS database with a wildcard operator
-static int selectData(const char *s) {
+int database::selectData(const char *s) {
     sqlite3 *DB;
 
     if(database::openDB(s, DB) != SQLITE_OK){
@@ -194,7 +204,7 @@ static unordered_map<int, int> getPileIDs(const char *s){
 // argc: holds the number of results
 // **argv: holds each value in array
 // **azColName: holds each column returned in array
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+int database::callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     for (int i = 0; i < argc; ++i) {
         std::cout << azColName[i] << ": " << argv[i] << std::endl;

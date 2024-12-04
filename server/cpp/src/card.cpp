@@ -8,19 +8,15 @@ Card::Card(int id, std::string f, std::string b){
     back = b;
     face = FRONT;
 }
-
-void Card::edit_front(std::string s){
+void Card::edit_front(string s){
     //save for later
 }
-
 void Card::edit_back(std::string s){
     //save for later
 }
-
 string Card::get_front(){
     return front;
 }
-
 string Card::get_back(){
     return back;
 }
