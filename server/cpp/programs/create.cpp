@@ -2,36 +2,54 @@
 #include <string.h>
 #include <cstdlib>
 #include <ctime>
-#include <activaut.idl>
-#include "../src/card.cpp"
-#include "../src/cardstack.cpp"
+#include <unordered_map>
+#include "../include/card.hpp"
+#include "../../database/database.hpp"
 
-bool findID(int findID);
+bool findID(int findID, unordered_map<int, int> &IDs);
+int generateID(unordered_map<int, int> &IDs);
 
+int main(int argc, char *argv[])
+{
+    const char *dir = "./database/cards.db"; // database
+    database *db = new database(dir);
+    unordered_map<int, int> pileIDs; // umap to store IDs
 
-int main(int argc, char* argv[]) {
-    //create a function that pulls ids from Card objects in databse
-    //store those ids in a umap
-    //generate a random num, and if rand num is in the map, keep create rand numbers
-    srand(time(0));
-    int randID = 0;
-    randID = (rand() % 10000) + 1;
-    while(findID(randID)){
-        //returns false, means this is a unique ID
-        //uses db class' instance variable IDs : unoredered_map<int, 
-    }
-    for(int i = 1; i < argc ; i++){
-        if((i + 1) > argc){
+    // create a function that pulls pile ids from Card objects in databse
+    // store those ids in a umap
+    // generate a random num, and if rand num is in the map, keep create rand numberS
+    pileIDs = db->getPileIDs();
+    int newPileID = generateID(pileIDs);
+
+    for (int i = 1; i < argc; i++)
+    {
+        if ((i + 1) > argc)
+        {
             std::cout << "Please provide correct parameters";
-        }else{
-            Card* c = new Card(randID, argv[i], argv[i + 1]);
+        }
+        else
+        {
+            Card *newCard = new Card(newPileID, argv[i], argv[i + 1]);
+            db->insertData(*newCard);
             i++;
         }
     }
-    
+
     return 0;
 }
 
-bool randID(int potentialID){
-    return false;
+int generateID(unordered_map<int, int> &IDs)
+{
+    srand(time(0));
+    int randID;
+    do
+    {
+        randID = rand() % 10000;
+    } while (findID(randID, IDs));
+    return randID;
+}
+
+bool findID(int potentialID, unordered_map<int, int> &IDs)
+{
+    return IDs.find(potentialID) != IDs.end();
 }

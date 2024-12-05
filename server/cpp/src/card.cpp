@@ -1,15 +1,17 @@
 #include "../include/card.hpp"
-Card::Card(int ID, std::string f, std::string b){
-    this->ID = ID;
+
+
+Card::Card(int id, std::string f, std::string b){
+    pileID = id;
     front = f;
     back = b;
     face = FRONT;
 }
 void Card::edit_front(string s){
-    //save for later
+    front = s;
 }
 void Card::edit_back(std::string s){
-    //save for later
+    back = s;
 }
 string Card::get_front(){
     return front;
@@ -18,13 +20,6 @@ string Card::get_back(){
     return back;
 }
 
-int Card::get_id(){
-    return ID;
-}
-void Card::flip(){
-    if(face == FRONT){
-        face == BACK;
-    }else{
-        face == FRONT;
-    }
+int Card::get_pileID(){
+    return pileID;
 }

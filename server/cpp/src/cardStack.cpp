@@ -1,6 +1,5 @@
 #include "../include/cardstack.hpp"
-#include <cstdlib>
-#include <ctime>
+
 CardStack::CardStack(){
     
 }
@@ -16,19 +15,7 @@ string CardStack::getName(){
 Card CardStack::topCard(){
     return cards[0];
 }
-Card CardStack::deleteCard(int position){
-    /*Card temp;
-    if(!inPile(position)){
-        return temp;
-    }
-    temp = cards[position - 1];
-    cards.erase(cards.begin() + (position - 1));
-    return temp;*/
-}
-void CardStack::addCard(Card newCard){
-    /*cards.push_back(newCard);
-    cardAmt++;*/
-}
+
 void CardStack::shuffle(){
     vector<Card> shuffled;
     //generate seed
