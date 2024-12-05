@@ -1,4 +1,9 @@
 # Testy
+
+![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
  
 > Authors: <br>
  &emsp;\<[Nolan Kosmal](https://github.com/Mightymango1)\>
@@ -108,7 +113,23 @@
  ## Screenshots
  > Screenshots of the input/output after running your application
  ## Installation/Usage
- > Instructions on installing and running your application
+ 1.) Clone this repository
+ ```
+git clone <url> ./
+```
+ 2.) Install dependencies (Note: Make sure to have Node.js Version 16.17.0 or higher. Please ensure you have Node.js installed via the [official website](https://nodejs.org/en))
+ ```
+# Install dependencies
+npm i
+```
+3.) Run the server locally
+ ```
+node server/index.js
+```
+4.) Run the website locally
+ ```
+npm run dev
+```
  ## Testing
  > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
  
