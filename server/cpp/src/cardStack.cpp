@@ -1,6 +1,5 @@
 #include "../include/cardstack.hpp"
-#include <cstdlib>
-#include <ctime>
+
 CardStack::CardStack(){
     
 }

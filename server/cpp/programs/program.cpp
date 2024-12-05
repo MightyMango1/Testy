@@ -1,22 +1,16 @@
 #include <iostream>
 #include <sqlite3.h>
 #include <stdexcept>
-#include "../../database/database.cpp"
+#include "../../database/database.hpp"
 
 
-int main(int argc, char* argv[]) {
+int main() {
     
     const char *dir = "./database/cards.db";
-    sqlite3 *DB;
     string tableName = "FLASHCARDS";
 
     //if database and table do not exist, then create them
-    if(!checkDBExists(dir)){
-        if(!checkTableExists(DB, tableName)){
-            createDB(dir);
-            createTable(dir);
-        }
-    }
+    database *db = new database(dir);
 
     return 0;
 }

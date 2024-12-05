@@ -4,6 +4,8 @@
 
 using namespace std;
 
+class database;
+
 enum Side {
     FRONT,
     BACK
@@ -17,13 +19,15 @@ class Card{
         int pileID; //matches the same id of that of a cardStack
     public:
         Card();
-        Card(int ID, string f, string b);
+        Card(int pileID, string f, string b);
+        
         void edit_front(string s);
         void edit_back(string s);
+
+        int get_pileID();
         string get_front();
         string get_back();
-        int get_pileID();
-        void flip();
+        Side get_face();
 };
 
 

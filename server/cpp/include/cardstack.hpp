@@ -2,6 +2,8 @@
 #define CARDSTACK_HPP
 #include "card.hpp"
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 class CardStack{
     private:

@@ -1,12 +1,27 @@
-#include "database.h"
-#include <filesystem>
+#include "database.hpp"
+
+
+//constructor for creating the database just once
+database::database(const char *s){
+    dir = s;
+    DB = nullptr;
+
+    if(sqlite3_open(dir, &DB) == SQLITE_OK){
+        if(!checkDBExists(dir)){
+            createDB();
+        }
+        createTable();
+    }else{
+        cerr << "Error opening database: " << sqlite3_errmsg(DB) << endl;
+        DB = nullptr;
+    }
+}
 
 
 // Create the database in SQLite. You need to open the connection with the given filename.
-int database::createDB(const char *s) {
-    sqlite3 *DB;
+int database::createDB() {
 
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return -1;
     }
 
@@ -18,9 +33,7 @@ int database::createDB(const char *s) {
 
 // Create a table for storing the data with different text fields.
 // An exception is thrown if the database cannot be opened or read.
-int database::createTable(const char *s) {
-    sqlite3 *DB;
-
+int database::createTable() {
     std::string sql = "CREATE TABLE IF NOT EXISTS FLASHCARDS("
                       "CardID INTEGER PRIMARY KEY AUTOINCREMENT, "
                       "PileID         INTEGER NOT NULL, "
@@ -31,7 +44,7 @@ int database::createTable(const char *s) {
     try {
         int exit = -1;
         
-        if(database::openDB(s, DB) != SQLITE_OK){
+        if(openDB(DB) != SQLITE_OK){
             return -1;
         }
 
@@ -43,7 +56,7 @@ int database::createTable(const char *s) {
             sqlite3_free(messageError);
         }
         else {
-            std::cout << "Table created successfully" << std::endl;
+            std::cout << "Table exists" << std::endl;
         }
         sqlite3_close(DB);
     }
@@ -55,8 +68,7 @@ int database::createTable(const char *s) {
 }
 
 //checks to see if database exists or not
-static bool checkDBExists(const char *dir){
-    sqlite3* DB;
+bool database::checkDBExists(const char *dir){
     int exit = sqlite3_open_v2(dir, &DB, SQLITE_OPEN_READONLY, NULL);
 
     if (exit == SQLITE_OK) {
@@ -68,7 +80,7 @@ static bool checkDBExists(const char *dir){
 }
 
 //checks if database table exists or not
-static bool checkTableExists(sqlite3 *DB, const string &tableName){
+bool database::checkTableExists(sqlite3 *DB, const string &tableName){
     sqlite3_stmt *stmt;
     bool tableExists = false;
 
@@ -84,8 +96,8 @@ static bool checkTableExists(sqlite3 *DB, const string &tableName){
     return tableExists;
 }
 
-static int openDB(const char *s, sqlite3 *&DB) {
-    int exit = sqlite3_open(s, &DB);
+int database::openDB(sqlite3 *DB) {
+    int exit = sqlite3_open(dir, &DB);
     if (exit != SQLITE_OK) {
         std::cerr << "Error opening database: " << sqlite3_errmsg(DB) << std::endl;
     }
@@ -93,15 +105,14 @@ static int openDB(const char *s, sqlite3 *&DB) {
 }
 
 // Delete entry from table
-static int deleteData(const char *s, int cardID) {
-    sqlite3 *DB;
+int database::deleteData(int cardID) {
 
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return -1;
     }
 
     std::string sql = "DELETE FROM FLASHCARDS;";
-    sqlite3_exec(DB, sql.c_str(), database::callback, NULL, NULL);
+    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
 
     return 0;
 }
@@ -109,13 +120,12 @@ static int deleteData(const char *s, int cardID) {
 
 
 // Inserting the Card object into the database.
-static int insertData(const char* s, Card card) {
-    sqlite3 *DB;
+int database::insertData(Card card) {
     char *messageError;
     int cardID = -1;
     int exit = -1;
     
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return -1;
     }
     
@@ -133,17 +143,16 @@ static int insertData(const char* s, Card card) {
         std::cout << "Records created successfully!" << std::endl;
     }
 
-    cardID = database::getLastInsertedCardID(DB);
+    cardID = getLastInsertedCardID(DB);
 
     return cardID;
 }
 
-int database::updateData(const char *s) {
-    sqlite3 *DB;
+int database::updateData(Card modCard) {
     char *messageError;
     int exit = -1;
 
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return -1;
     }
 
@@ -163,28 +172,26 @@ int database::updateData(const char *s) {
 }
 
 // Selects everything in the FLASHCARDS database with a wildcard operator
-int database::selectData(const char *s) {
-    sqlite3 *DB;
+int database::selectData() {
 
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return -1;
     }
 
     std::string sql = " SELECT * FROM FLASHCARDS;";
 
     // With open database, this is the first argument to the callback function -- evaluates SQL statement
-    sqlite3_exec(DB, sql.c_str(), database::callback, NULL, NULL);
+    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
 
     return 0;
 }
 
 //searches along the database and retrieves all the pileIDs in a umap
-static unordered_map<int, int> getPileIDs(const char *s){
+unordered_map<int, int> database::getPileIDs(){
     unordered_map<int, int> pileIDs;
-    sqlite3 *DB;
     sqlite3_stmt *stmt;
 
-    if(database::openDB(s, DB) != SQLITE_OK){
+    if(openDB(DB) != SQLITE_OK){
         return pileIDs;
     }
 
@@ -216,7 +223,7 @@ int database::callback(void *NotUsed, int argc, char **argv, char **azColName)
 }
 
 //returns the unique cardID of recently inserted Card object
-static int getLastInsertedCardID(sqlite3 *db){
+int database::getLastInsertedCardID(sqlite3 *db){
     sqlite3_stmt *stmt;
     char *messageError;
     int cardID;

@@ -40,9 +40,9 @@ yarn-error.log*
 next-env.d.ts
 
 #executables
-program.exe
+database.exe
 addcard.exe
 a.exe
 
 #database
-database/cards.db
+./database/cards.db
