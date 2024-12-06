@@ -5,7 +5,6 @@ import Link from 'next/link';
 import NavBar from '@/components/NavBar';
 import { useState } from "react";
 import { addCards } from "@/server/axiosModule";
-import Button from '@/components/Button';
 
 const studyPage = () => {
   const [textBox1, setTextBox1] = useState("");
