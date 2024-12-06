@@ -24,7 +24,7 @@ app.use(cors()); // allows all origins
 //     // }));
 
 function getDatabase() {
-  return "test";
+  return ["cardfront","cardback","123","cardfront2","cardback2","234"];
 }
 // POST route to run the C++ program
 // NOTE: basically if the program receives a POST request from the front end (in this case will always be from axios),
