@@ -119,8 +119,6 @@
 <img width="1680" src="https://github.com/user-attachments/assets/89d40edc-4c84-4d35-89b6-a2ed75349341">
 
 
-
-
  ## Installation/Usage
  1.) Clone this repository
  ```
@@ -131,14 +129,27 @@ git clone <url> ./
 # Install dependencies
 npm i
 ```
-3.) Run the server locally
+3.) Compile executables
  ```
-node server/index.js
+#compile dispaly executable
+g++ ./server/cpp/programs/display.cpp ./server/cpp/src/card.cpp ./server/database/database.cpp -o ./server/display -lsqlite3
+#compile addcard executable
+g++ ./server/cpp/programs/create.cpp ./server/cpp/src/card.cpp ./server/database/database.cpp -o ./server/addcard -lsqlite3
 ```
-4.) Run the website locally
+4.) Run the server locally
+ ```
+cd server
+node index.js
+```
+5.) Run the website locally
  ```
 npm run dev
 ```
+6.) Navigate to localhost:3001
+ ```
+http://localhost:3001/
+```
+
  ## Testing
  > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
  
