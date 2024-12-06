@@ -53,6 +53,9 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "cstdarg": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "codecvt": "cpp",
+        "iomanip": "cpp",
+        "sstream": "cpp"
     }
 }
