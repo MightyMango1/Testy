@@ -12,6 +12,7 @@ int generateID(unordered_map<int, int> &IDs);
 int main(int argc, char *argv[])
 {
     const char *dir = "./database/cards.db"; // database
+    string tableName = "FLASHCARDS";
     database *db = new database(dir);
     unordered_map<int, int> pileIDs; // umap to store IDs
 
