@@ -112,11 +112,12 @@
  
  ## Screenshots
  > Screenshots of the input/output after running your application
-<img width="1680" src="https://github.com/user-attachments/assets/32be0464-1f95-4467-a125-60e058db05df">
-<img width="1680" src="https://github.com/user-attachments/assets/4d7d8e4f-e828-4439-a0f3-8b4dc7cc61be">
-<img width="1679" src="https://github.com/user-attachments/assets/9b3ce84a-7459-454f-9a64-2f35cc18ca13">
-<img width="1680" src="https://github.com/user-attachments/assets/59f80db7-c591-4a48-b8b3-7c60d8bc9bb7">
-<img width="1680" src="https://github.com/user-attachments/assets/89d40edc-4c84-4d35-89b6-a2ed75349341">
+<img width="800" src="https://github.com/user-attachments/assets/32be0464-1f95-4467-a125-60e058db05df">
+<img width="800" src="https://github.com/user-attachments/assets/4d7d8e4f-e828-4439-a0f3-8b4dc7cc61be">
+<img width="800" src="https://github.com/user-attachments/assets/9b3ce84a-7459-454f-9a64-2f35cc18ca13">
+<img width="800" src="https://github.com/user-attachments/assets/59f80db7-c591-4a48-b8b3-7c60d8bc9bb7">
+<img width="800" src="https://github.com/user-attachments/assets/89d40edc-4c84-4d35-89b6-a2ed75349341">
+<img width="800" src="https://github.com/user-attachments/assets/cefd5a26-1224-4cf3-a09b-c4a6165836af">
 
 
  ## Installation/Usage
