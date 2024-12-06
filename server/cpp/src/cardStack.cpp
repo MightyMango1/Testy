@@ -1,7 +1,7 @@
 #include "../include/cardstack.hpp"
 
-CardStack::CardStack(){
-    
+CardStack::CardStack(const char *dir){
+    db = new database(dir);
 }
 int CardStack::get_cardAmt(){
     return cards.size();
