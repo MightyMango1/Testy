@@ -22,7 +22,7 @@ const studyPage = () => {
   const handleSubmitDeck = async (e) => {
     //try
     const result = await addCards(submittedData);
-    alert(result);
+    alert("Study set successfully submitted!")
   }
 
   return (

@@ -15,6 +15,9 @@ int main(int argc, char *argv[])
     string tableName = "FLASHCARDS";
     database *db = new database(dir);
     unordered_map<int, int> pileIDs; // umap to store IDs
+     for (int i = 0; i < argc; ++i) {
+        std::cout << "Argument " << i << ": " << argv[i] << std::endl;
+    }
 
     // create a function that pulls pile ids from Card objects in databse
     // store those ids in a umap

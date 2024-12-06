@@ -23,9 +23,6 @@ app.use(cors()); // allows all origins
 //     //   origin: 'http://localhost:3001',
 //     // }));
 
-function getDatabase() {
-  return ["cardfront","cardback","123","cardfront2","cardback2","234"];
-}
 // POST route to run the C++ program
 // NOTE: basically if the program receives a POST request from the front end (in this case will always be from axios),
 // the server will process the reqest here (the req parameter) and respond back to the client with the result (the res parameter)
@@ -34,10 +31,13 @@ app.post('/run-add-cpp', (req, res) => {
 
   // Run the C++ executable with the input
   var command = `addcard`;
+  let character = '_';
   for (let i=0; i < input.length; i++) {
-    command += ` ${input[i].textBox1} ${input[i].textBox2}`
+    
+    let newTextBox1 = input[i].textBox1.replace(/ /g, character);
+    let newTextBox2 = input[i].textBox2.replace(/ /g, character);
+    command += ` ${newTextBox1} ${newTextBox2}`
   }
-  console.log(command);
   // Command to compile and run a C++ program
   //Note: Params:
   //Error: If an error happens this will be an Error object containing information about what went wrong.
@@ -68,6 +68,23 @@ app.listen(port, () => {
 
 
 app.get('/get-data', (req, res) => {
-  const data = getDatabase();
-  return res.status(200).json({ output: data });
-})
+
+  exec('display', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing program: ${error.message}`);
+      //if error, send a 500 status along with error message object (TODO: display this error on the frontend)
+      return res.status(500).send({ output: `Error: ${error.message}` });
+    }
+    if (stderr) {
+      console.error(`Standard Error: ${stderr}`);
+      return res.status(500).send({ output: `Error stderr: ${stderr}` });
+    }
+    
+    // Send the standard output (result of the program) as response
+    //remove this(?) don't think we need a response for this post
+    const cards = stdout.split(" ");
+    let cleanedArray = cards.filter(element => element);
+    console.log(cleanedArray);
+    return res.status(200).json({ output: cleanedArray});
+  });
+});

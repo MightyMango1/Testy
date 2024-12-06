@@ -81,18 +81,20 @@ const Sets = () => {
         // Work with a local copy of possibleSets
         const updatedSets = [...possibleSets];
         let counter = 1;
-
+        let character = ' ';
         for (let i = 0; i < allCards.length; i += 3) {
             let obj = {
-                front: [allCards[i]],
-                back: [allCards[i + 1]],
-                id: [allCards[i + 2]],
+                front: allCards[i].replace(/_/g, character),
+                back: allCards[i + 1].replace(/_/g, character),
+                id: allCards[i + 2],
             };
             let setFound = false;
 
             // Check for existing sets in the local copy
             for (let set of updatedSets) {
-                if (obj.id === set.setId) {
+                // console.log(`CardID: ${obj.id}`);
+                // console.log(`CardID: ${set.setId}`);
+                if (obj.id == set.setId) {
                     set.cards.push(obj); // Push to the respective set
                     console.log("set already exists");
                     setFound = true;
@@ -102,11 +104,13 @@ const Sets = () => {
 
             // If no set was found, create a new one
             if (!setFound) {
+                console.log("creating a new set");
                 const newSetObj = {
                     name: `My Set: ${counter}`,
                     cards: [obj],
                     setId: obj.id,
                 };
+                console.log(newSetObj);
                 counter += 1;
                 updatedSets.push(newSetObj); // Update the local array
             }
@@ -115,7 +119,6 @@ const Sets = () => {
         // Update the state once after processing all sets
         setPossibleSets(updatedSets);
         setNameCounter(counter);
-        console.log("Final Sets:", updatedSets);
     };
 
     // Run fetchData once every time the page loads

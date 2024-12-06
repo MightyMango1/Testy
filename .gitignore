@@ -44,6 +44,8 @@ database.exe
 addcard.exe
 a.exe
 program.exe
+display.exe
+program
 
 #database
 ./database/cards.db

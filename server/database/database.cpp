@@ -55,9 +55,9 @@ int database::createTable() {
             std::cerr << "Error Create Table" << sqlite3_errmsg(DB) << std::endl;
             sqlite3_free(messageError);
         }
-        else {
-            std::cout << "Table exists" << std::endl;
-        }
+        // else {
+        //     std::cout << "Table exists" << std::endl;
+        // }
     }
     catch (const std::exception &e) {
         std::cerr << e.what();
@@ -289,9 +289,9 @@ vector<string> database::displayCards(){
             string front = frontText ? reinterpret_cast<const char*>(frontText) : "";
             string back = backText ? reinterpret_cast<const char*>(backText) : "";
 
-            arguments.push_back(to_string(pileID));
             arguments.push_back(front);
             arguments.push_back(back);
+            arguments.push_back(to_string(pileID));
         }
         sqlite3_finalize(stmt);
     } else{
