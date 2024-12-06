@@ -7,6 +7,7 @@
 #include <sqlite3.h>
 #include <stdexcept>
 #include <unordered_map>
+#include <vector>
 
 class database {
 private:
@@ -22,13 +23,14 @@ public:
     bool checkTableExists(sqlite3 *DB, const string &tableName);
 
     int deleteData(int cardID);
-    int insertData(Card *card);
+    int insertCard(Card *card);
     int updateData(Card modCard);
 
     int selectData();
     static int callback(void *NotUsed, int argc, char **argv, char **azColName);
     unordered_map<int, int> getPileIDs();
     int getLastInsertedCardID(sqlite3 *&db);
+    vector<string> displayCards();
 };
 
 #endif

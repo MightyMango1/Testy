@@ -120,40 +120,7 @@ int database::deleteData(int cardID) {
     return 0;
 }
 
-
-
-// Inserting the Card object into the database.
-// int database::insertData(Card *card) {
-//     char *messageError;
-//     int cardID = -1;
-//     int exit = -1;
-    
-//     if(openDB(DB) != SQLITE_OK){
-//         return -1;
-//     }
-    
-//     std::string sql("INSERT INTO FLASHCARDS (PileID, TITLE, DESCRIPTION) VALUES( '"
-//                     + to_string(card->get_pileID()) + "', "
-//                     + "'" + card->get_front() + "', "
-//                     + "'" + card->get_back() + "');");
-
-//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-//     if (exit != SQLITE_OK) {
-//         std::cerr << "What's wrong: " << sqlite3_errmsg(DB) << std::endl;
-//         sqlite3_free(messageError);
-//     }
-//     else {
-//         std::cout << "Records created successfully!" << std::endl;
-//     }
-
-//     cardID = getLastInsertedCardID(DB);
-
-//     sqlite3_close(DB);
-
-//     return cardID;
-// }
-
-int database::insertData(Card *card) {
+int database::insertCard(Card *card) {
     char *messageError;
     int cardID = -1;
     int exit = -1;
@@ -167,7 +134,6 @@ int database::insertData(Card *card) {
     
     sqlite3_stmt *stmt;
     
-    // Prepare the statement
     exit = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, NULL);
     if (exit != SQLITE_OK) {
         std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << std::endl;
@@ -179,7 +145,6 @@ int database::insertData(Card *card) {
     sqlite3_bind_text(stmt, 2, card->get_front().c_str(), -1, SQLITE_STATIC);  // TITLE
     sqlite3_bind_text(stmt, 3, card->get_back().c_str(), -1, SQLITE_STATIC);   // DESCRIPTION
 
-    // Execute the statement
     exit = sqlite3_step(stmt);
     if (exit != SQLITE_DONE) {
         std::cerr << "Error inserting data: " << sqlite3_errmsg(DB) << std::endl;
@@ -192,7 +157,7 @@ int database::insertData(Card *card) {
     // Get the last inserted ID
     cardID = getLastInsertedCardID(DB);
 
-    sqlite3_finalize(stmt);  // Finalize the prepared statement
+    sqlite3_finalize(stmt);
     sqlite3_close(DB);
 
     return cardID;
@@ -298,4 +263,42 @@ int database::getLastInsertedCardID(sqlite3 *&db){
     sqlite3_close(db);
 
     return cardID;
+}
+
+//returns a vector of Cards from the database
+vector<string> database::displayCards(){
+    sqlite3_stmt *stmt;
+    vector<string> arguments;
+
+    if(openDB(DB) != SQLITE_OK){
+        return arguments;
+    }
+
+    string sql = "SELECT PileID, TITLE, DESCRIPTION " 
+                 "FROM FLASHCARDS "
+                 "ORDER BY CardID;";
+
+    if(sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, nullptr) == SQLITE_OK){
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+
+            int pileID = sqlite3_column_int(stmt, 0);
+            const unsigned char *frontText = sqlite3_column_text(stmt, 1);
+            const unsigned char *backText = sqlite3_column_text(stmt, 2);
+
+            //convert to string
+            string front = frontText ? reinterpret_cast<const char*>(frontText) : "";
+            string back = backText ? reinterpret_cast<const char*>(backText) : "";
+
+            arguments.push_back(to_string(pileID));
+            arguments.push_back(front);
+            arguments.push_back(back);
+        }
+        sqlite3_finalize(stmt);
+    } else{
+        std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << endl;
+    }
+
+    sqlite3_close(DB);
+
+    return arguments;
 }
