@@ -25,10 +25,14 @@ int main(int argc, char* argv[]) {
             std::cout << "Please provide correct parameters";
         }else{
             Card *newCard = new Card(newPileID, argv[i], argv[i + 1]);
-            db->insertData(*newCard);
+
+            cout << newCard->get_front() << " " << newCard->get_back() << " " << newCard->get_pileID() << endl;
+
+            db->insertData(newCard);
             i++;
         }
     }
+    db->selectData();
     
     return 0;
 }

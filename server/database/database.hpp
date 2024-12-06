@@ -3,9 +3,9 @@
 
 #include "../cpp/include/card.hpp"
 #include <iostream>
+#include <string>
 #include <sqlite3.h>
 #include <stdexcept>
-#include <filesystem>
 #include <unordered_map>
 
 class database {
@@ -15,20 +15,20 @@ private:
 public:
     database(const char *s);
 
-    int openDB(sqlite3 *DB);
+    int openDB(sqlite3 *&DB);
     int createDB();
     int createTable();
     bool checkDBExists(const char *dir);
     bool checkTableExists(sqlite3 *DB, const string &tableName);
 
     int deleteData(int cardID);
-    int insertData(Card card);
+    int insertData(Card *card);
     int updateData(Card modCard);
 
     int selectData();
     static int callback(void *NotUsed, int argc, char **argv, char **azColName);
     unordered_map<int, int> getPileIDs();
-    int getLastInsertedCardID(sqlite3 *db);
+    int getLastInsertedCardID(sqlite3 *&db);
 };
 
 #endif

@@ -13,8 +13,9 @@ database::database(const char *s){
         createTable();
     }else{
         cerr << "Error opening database: " << sqlite3_errmsg(DB) << endl;
-        DB = nullptr;
     }
+
+    sqlite3_close(DB);
 }
 
 
@@ -36,10 +37,9 @@ int database::createDB() {
 int database::createTable() {
     std::string sql = "CREATE TABLE IF NOT EXISTS FLASHCARDS("
                       "CardID INTEGER PRIMARY KEY AUTOINCREMENT, "
-                      "PileID         INTEGER NOT NULL, "
+                      "PileID         INTEGER, "
                       "TITLE          TEXT NOT NULL, "
-                      "DESCRIPTION    TEXT NOT NULL, "
-                      "ID             NOT NULL );";
+                      "DESCRIPTION    TEXT NOT NULL);";
 
     try {
         int exit = -1;
@@ -52,17 +52,18 @@ int database::createTable() {
         exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
 
         if (exit != SQLITE_OK) {
-            std::cerr << "Error Create Table" << std::endl;
+            std::cerr << "Error Create Table" << sqlite3_errmsg(DB) << std::endl;
             sqlite3_free(messageError);
         }
         else {
             std::cout << "Table exists" << std::endl;
         }
-        sqlite3_close(DB);
     }
     catch (const std::exception &e) {
         std::cerr << e.what();
     }
+
+    sqlite3_close(DB);
 
     return 0;
 }
@@ -96,7 +97,7 @@ bool database::checkTableExists(sqlite3 *DB, const string &tableName){
     return tableExists;
 }
 
-int database::openDB(sqlite3 *DB) {
+int database::openDB(sqlite3 *&DB) {
     int exit = sqlite3_open(dir, &DB);
     if (exit != SQLITE_OK) {
         std::cerr << "Error opening database: " << sqlite3_errmsg(DB) << std::endl;
@@ -114,39 +115,89 @@ int database::deleteData(int cardID) {
     std::string sql = "DELETE FROM FLASHCARDS;";
     sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
 
+    sqlite3_close(DB);
+
     return 0;
 }
 
 
 
 // Inserting the Card object into the database.
-int database::insertData(Card card) {
+// int database::insertData(Card *card) {
+//     char *messageError;
+//     int cardID = -1;
+//     int exit = -1;
+    
+//     if(openDB(DB) != SQLITE_OK){
+//         return -1;
+//     }
+    
+//     std::string sql("INSERT INTO FLASHCARDS (PileID, TITLE, DESCRIPTION) VALUES( '"
+//                     + to_string(card->get_pileID()) + "', "
+//                     + "'" + card->get_front() + "', "
+//                     + "'" + card->get_back() + "');");
+
+//     exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+//     if (exit != SQLITE_OK) {
+//         std::cerr << "What's wrong: " << sqlite3_errmsg(DB) << std::endl;
+//         sqlite3_free(messageError);
+//     }
+//     else {
+//         std::cout << "Records created successfully!" << std::endl;
+//     }
+
+//     cardID = getLastInsertedCardID(DB);
+
+//     sqlite3_close(DB);
+
+//     return cardID;
+// }
+
+int database::insertData(Card *card) {
     char *messageError;
     int cardID = -1;
     int exit = -1;
-    
-    if(openDB(DB) != SQLITE_OK){
+
+    if (openDB(DB) != SQLITE_OK) {
         return -1;
     }
+
+    // Use placeholders for parameters
+    std::string sql = "INSERT INTO FLASHCARDS (PileID, TITLE, DESCRIPTION) VALUES(?, ?, ?);";
     
-    std::string sql("INSERT INTO FLASHCARDS (PileID, TITLE, DESCRIPTION) VALUES("
-                    + to_string(card.get_pileID()) + ", "
-                    + "'" + card.get_front() + "', "
-                    + "'" + card.get_back() + "');");
-
-    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+    sqlite3_stmt *stmt;
+    
+    // Prepare the statement
+    exit = sqlite3_prepare_v2(DB, sql.c_str(), -1, &stmt, NULL);
     if (exit != SQLITE_OK) {
-        std::cerr << "Error Insert" << std::endl;
-        sqlite3_free(messageError);
-    }
-    else {
-        std::cout << "Records created successfully!" << std::endl;
+        std::cerr << "Error preparing statement: " << sqlite3_errmsg(DB) << std::endl;
+        return -1;
     }
 
+    // Bind the parameters
+    sqlite3_bind_int(stmt, 1, card->get_pileID());  // PileID
+    sqlite3_bind_text(stmt, 2, card->get_front().c_str(), -1, SQLITE_STATIC);  // TITLE
+    sqlite3_bind_text(stmt, 3, card->get_back().c_str(), -1, SQLITE_STATIC);   // DESCRIPTION
+
+    // Execute the statement
+    exit = sqlite3_step(stmt);
+    if (exit != SQLITE_DONE) {
+        std::cerr << "Error inserting data: " << sqlite3_errmsg(DB) << std::endl;
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    std::cout << "Record created successfully!" << std::endl;
+
+    // Get the last inserted ID
     cardID = getLastInsertedCardID(DB);
+
+    sqlite3_finalize(stmt);  // Finalize the prepared statement
+    sqlite3_close(DB);
 
     return cardID;
 }
+
 
 int database::updateData(Card modCard) {
     char *messageError;
@@ -173,7 +224,6 @@ int database::updateData(Card modCard) {
 
 // Selects everything in the FLASHCARDS database with a wildcard operator
 int database::selectData() {
-
     if(openDB(DB) != SQLITE_OK){
         return -1;
     }
@@ -181,8 +231,15 @@ int database::selectData() {
     std::string sql = " SELECT * FROM FLASHCARDS;";
 
     // With open database, this is the first argument to the callback function -- evaluates SQL statement
-    sqlite3_exec(DB, sql.c_str(), callback, NULL, NULL);
+    char *errorMessage = nullptr;
+    int exit = sqlite3_exec(DB, sql.c_str(), callback, nullptr, &errorMessage);
+    if (exit != SQLITE_OK) {
+        std::cerr << "Error selecting data: " << errorMessage << std::endl;
+        sqlite3_free(errorMessage);
+        return -1;
+    }
 
+    sqlite3_close(DB);
     return 0;
 }
 
@@ -204,6 +261,8 @@ unordered_map<int, int> database::getPileIDs(){
         }
         sqlite3_finalize(stmt);
     }
+
+    sqlite3_close(DB);
     return pileIDs;
 }
 
@@ -223,9 +282,8 @@ int database::callback(void *NotUsed, int argc, char **argv, char **azColName)
 }
 
 //returns the unique cardID of recently inserted Card object
-int database::getLastInsertedCardID(sqlite3 *db){
+int database::getLastInsertedCardID(sqlite3 *&db){
     sqlite3_stmt *stmt;
-    char *messageError;
     int cardID;
 
     string sql("SELECT LAST_INSERT_ROWID()");
@@ -236,6 +294,8 @@ int database::getLastInsertedCardID(sqlite3 *db){
         }
         sqlite3_finalize(stmt);
     }
+
+    sqlite3_close(db);
 
     return cardID;
 }
