@@ -51,3 +51,18 @@ bool CardStack::inPile(int cardNum){
     }
     return true;
 }
+
+void CardStack::addCard(Card newCard){
+    cards.push_back(newCard);
+}
+
+Card CardStack::deleteCard(int cardNum){
+    unsigned int i;
+    for(i = 0; i < cards.size(); ++i){
+        if (cards[i].get_pileID() == cardNum) break;
+        Card victim = cards[i];
+        cards.erase(cards.begin()+i);
+        return victim;
+    }
+    throw runtime_error("card pileID not found in stack");
+}
