@@ -23,6 +23,9 @@ app.use(cors()); // allows all origins
 //     //   origin: 'http://localhost:3001',
 //     // }));
 
+function getDatabase() {
+  return "test";
+}
 // POST route to run the C++ program
 // NOTE: basically if the program receives a POST request from the front end (in this case will always be from axios),
 // the server will process the reqest here (the req parameter) and respond back to the client with the result (the res parameter)
@@ -53,6 +56,7 @@ app.post('/run-add-cpp', (req, res) => {
     }
     
     // Send the standard output (result of the program) as response
+    //remove this(?) don't think we need a response for this post
     res.status(200).json({ output: stdout.trim() });
   });
 });
@@ -61,3 +65,9 @@ app.post('/run-add-cpp', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+
+app.get('/get-data', (req, res) => {
+  const data = getDatabase();
+  return res.status(200).json({ output: data });
+})
