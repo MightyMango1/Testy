@@ -152,5 +152,5 @@ http://localhost:3001/
 ```
 
  ## Testing
- > How was your project tested/validated? If you used CI, you should have a "build passing" badge in this README.
+ > The application was tested using Google GTest modules and ran with Cmake, with all tests passing.
  
